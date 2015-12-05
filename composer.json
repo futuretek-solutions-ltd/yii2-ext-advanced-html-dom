@@ -1,11 +1,43 @@
 {
-  "name": "hrmatching/advanced_html_dom",
-  "type": "library",
-  "description": "",
+  "name": "futuretek/advanced-html-dom",
+  "description": "Advanced html dom yii integration",
   "keywords": [
+    "html dom",
+    "library"
   ],
-  "license": "MIT",
+  "type": "library",
+  "license": "proprietary",
+  "homepage": "http://www.futuretek.cz/",
+  "authors": [
+    {
+      "name": "Petr Leo Compel",
+      "email": "petr.compel@futuretek.cz",
+      "homepage": "http://www.futuretek.cz",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://jira.futuretek.cz/browse/YII",
+    "wiki": "https://doc.futuretek.cz/display/YII",
+    "source": "https://git.futuretek.cz/projects/YII"
+  },
   "require": {
-    "php": ">=5.4"
+    "php": ">=5.5.0"
+  },
+  "repositories": [
+    {
+      "url": "http://composer.futuretek.cz",
+      "type": "composer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "futuretek\\shared\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
   }
 }
