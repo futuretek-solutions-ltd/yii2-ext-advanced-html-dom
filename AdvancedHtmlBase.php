@@ -95,7 +95,7 @@ class AdvancedHtmlBase
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function __toString()
     {
