@@ -6,30 +6,19 @@
         "library"
     ],
     "type": "library",
-    "license": "proprietary",
-    "homepage": "http://www.futuretek.cz/",
+    "license": "MIT",
+    "homepage": "https://www.futuretek.cz/",
     "authors": [
         {
             "name": "Petr Leo Compel",
             "email": "petr.compel@futuretek.cz",
-            "homepage": "http://www.futuretek.cz",
+            "homepage": "https://www.futuretek.cz",
             "role": "Developer"
         }
     ],
-    "support": {
-        "issues": "https://jira.futuretek.cz/browse/YII",
-        "wiki": "https://doc.futuretek.cz/display/YII",
-        "source": "https://git.futuretek.cz/projects/YII/repos/ext-advanced-html-dom/browse"
-    },
     "require": {
         "php": ">=5.5.0"
     },
-    "repositories": [
-        {
-            "url": "https://composer.futuretek.cz/repo/private/",
-            "type": "composer"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "futuretek\\shared\\dom\\": ""
