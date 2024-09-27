@@ -7,6 +7,8 @@ namespace futuretek\shared\dom;
  * Time: 14:20
  */
 use ArrayAccess;
+use DOMDocumentFragment;
+use DOMNode;
 
 /**
  * Class AHTMLNode
@@ -21,7 +23,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     /**
      * AHTMLNode constructor.
      *
-     * @param $node \DOMNode
+     * @param $node DOMNode
      * @param $doc
      */
     public function __construct($node, $doc)
@@ -35,7 +37,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     /**
      * @param $html
      *
-     * @return mixed
+     * @return DOMDocumentFragment|void
      */
     private function get_fragment($html)
     {
@@ -88,7 +90,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     /**
      * @param $str
      *
-     * @return mixed
+     * @return array|string|string[]|null
      */
     public function decamelize($str)
     {
@@ -102,7 +104,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
      */
     public function attributes()
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->node->attributes as $attr) {
             $ret[$attr->nodeName] = $attr->nodeValue;
         }
@@ -119,17 +121,17 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     public function flatten($key = null, $level = 1)
     {
         $children = $this->children;
-        $ret = array();
+        $ret = [];
         $tag = $this->tag;
         if ($this->at('./preceding-sibling::' . $this->tag) || $this->at('./following-sibling::' . $this->tag) || ($key = $this->tag . 's')) {
             $count = $this->search('./preceding-sibling::' . $this->tag)->length + 1;
             $tag .= '_' . $count;
         }
         if ($children->length == 0) {
-            $ret[$this->decamelize(implode(' ', array_filter(array($key, $tag))))] = $this->text;
+            $ret[$this->decamelize(implode(' ', array_filter([$key, $tag])))] = $this->text;
         } else {
             foreach ($children as $child) {
-                $ret = array_merge($ret, $child->flatten(implode(' ', array_filter(array($key, $level <= 0 ? $tag : null))), $level - 1));
+                $ret = array_merge($ret, $child->flatten(implode(' ', array_filter([$key, $level <= 0 ? $tag : null])), $level - 1));
             }
         }
 
@@ -156,8 +158,8 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
             return;
         case 'tag':
             $el = $this->replace('<' . $value . '>' . $this->innerhtml . '</' . $value . '>');
-            foreach ($this->node->attributes as $key => $att) {
-                $el->$key = $att->nodeValue;
+            foreach ($this->node->attributes as $i => $att) {
+                $el->$i = $att->nodeValue;
             }
             $this->node = $el->node;
 
@@ -196,15 +198,15 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     }
 
     /**
-     * @param mixed $key
+     * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($offset, $value)
     {
         if ($value) {
-            $this->node->setAttribute($key, $value);
+            $this->node->setAttribute($offset, $value);
         } else {
-            $this->node->removeAttribute($key);
+            $this->node->removeAttribute($offset);
         }
         //trigger_error('offsetSet not implemented', E_USER_WARNING);
     }

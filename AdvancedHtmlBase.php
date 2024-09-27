@@ -156,15 +156,15 @@ class AdvancedHtmlBase
         }
         if (null === $index) {
             return new AHTMLNodeList($this->doc->xpath->query($xpath, $this->node), $this->doc);
-        } else {
-            $nl = $this->doc->xpath->query($xpath, $this->node);
-            if ($index < 0) {
-                $index = $nl->length + $index;
-            }
-            $node = $nl->item($index);
-
-            return $node ? new AHTMLNode($node, $this->doc) : null;
         }
+
+        $nl = $this->doc->xpath->query($xpath, $this->node);
+        if ($index < 0) {
+            $index = $nl->length + $index;
+        }
+        $node = $nl->item($index);
+
+        return $node ? new AHTMLNode($node, $this->doc) : null;
     }
 
     // magic methods

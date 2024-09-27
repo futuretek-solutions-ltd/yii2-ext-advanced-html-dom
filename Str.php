@@ -54,7 +54,7 @@ class Str
      * @param     $regex
      * @param int $group_number
      *
-     * @return mixed
+     * @return string[]
      */
     public function scan($regex, $group_number = 0)
     {
@@ -114,7 +114,7 @@ class Str
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function to_s()
     {

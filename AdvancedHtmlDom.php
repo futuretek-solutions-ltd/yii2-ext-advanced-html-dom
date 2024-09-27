@@ -21,9 +21,9 @@ namespace futuretek\shared\dom;
 use DOMDocument;
 use DOMXPath;
 
-$attributes = array('href', 'src', 'id', 'class', 'name', 'text', 'height', 'width', 'content', 'value', 'title', 'alt');
+$attributes = ['href', 'src', 'id', 'class', 'name', 'text', 'height', 'width', 'content', 'value', 'title', 'alt'];
 
-$tags = array(
+$tags = [
     'a',
     'abbr',
     'address',
@@ -117,7 +117,7 @@ $tags = array(
     'ul',
     'var',
     'video'
-);
+];
 
 /**
  *
@@ -173,7 +173,7 @@ class AdvancedHtmlDom extends AdvancedHtmlBase
     {
         $this->dom = new DOMDocument();
         if ($is_xml) {
-            @$this->dom->loadXML(preg_replace('/xmlns=".*?"/ ', '', $html));
+            @$this->dom->loadXML(preg_replace('/xmlns=".*?"/', '', $html));
         } else {
             @$this->dom->loadHTML($html);
         }

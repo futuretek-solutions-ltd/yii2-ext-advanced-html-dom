@@ -53,22 +53,22 @@ class CSS
     {
         switch (true) {
         case preg_match('/^(-?\d+)(?:n\+(\d+))$/', $str, $m):
-            return array((int) $m[1], (int) $m[2]);
+            return [(int) $m[1], (int) $m[2]];
             // Duplicate
             //case preg_match('/^(-?\d+)(?:n\+(\d+))$/', $str, $m):
             //  return array((int) $m[1], (int) $m[2]);
         case preg_match('/^n\+(\d+)$/', $str, $m):
-            return array(1, (int) $m[1]);
+            return [1, (int) $m[1]];
         case preg_match('/^-n\+(\d+)$/', $str, $m):
-            return array(-1, (int) $m[1]);
+            return [-1, (int) $m[1]];
         case preg_match('/^(\d+)n$/', $str, $m):
-            return array((int) $m[1], 0);
+            return [(int) $m[1], 0];
         case preg_match('/^even$/', $str, $m):
             return self::parse_nth('2n+0');
         case preg_match('/^odd$/', $str, $m):
             return self::parse_nth('2n+1');
         case preg_match('/^(-?\d+)$/', $str, $m):
-            return array(null, (int) $m[1]);
+            return [null, (int) $m[1]];
         default:
             die('no match: ' . $str);
         }
@@ -82,9 +82,9 @@ class CSS
      */
     private static function nth($str, $last = false)
     {
-        list($a, $b) = self::parse_nth($str);
+        [$a, $b] = self::parse_nth($str);
         //echo $a . ':' . $b . '\n';
-        $tokens = array();
+        $tokens = [];
         if ($last) {
             if ($a === null) {
                 return 'position() = last() - ' . ($b - 1);
@@ -96,12 +96,10 @@ class CSS
                 $tokens[] = '((last()-position()+1) <= ' . $b . ')';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b != 0) {
                 $tokens[] = '((((last()-position()+1)-' . $b . ') mod ' . abs($a) . ') = 0)';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b == 0) {
                 $tokens[] = '((last()-position()+1) mod ' . abs($a) . ') = 0';
             }
@@ -116,12 +114,10 @@ class CSS
                 $tokens[] = '(position() <= ' . $b . ')';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b != 0) {
                 $tokens[] = '(((position()-' . $b . ') mod ' . abs($a) . ') = 0)';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b == 0) {
                 $tokens[] = '(position() mod ' . abs($a) . ') = 0';
             }
@@ -139,9 +135,9 @@ class CSS
      */
     private static function nth_child($str, $last = false)
     {
-        list($a, $b) = self::parse_nth($str);
+        [$a, $b] = self::parse_nth($str);
         //echo $a . ':' . $b . '\n';
-        $tokens = array();
+        $tokens = [];
         if ($last) {
             if ($a === null) {
                 return 'count(following-sibling::*) = ' . ($b - 1);
@@ -153,12 +149,10 @@ class CSS
                 $tokens[] = '((last()-position()+1) <= ' . $b . ')';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b != 0) {
                 $tokens[] = '((((last()-position()+1)-' . $b . ') mod ' . abs($a) . ') = 0)';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b == 0) {
                 $tokens[] = '((last()-position()+1) mod ' . abs($a) . ') = 0';
             }
@@ -173,12 +167,10 @@ class CSS
                 $tokens[] = '(position() <= ' . $b . ')';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b != 0) {
                 $tokens[] = '(((position()-' . $b . ') mod ' . abs($a) . ') = 0)';
             }
             // TODO may !==
-            /** @noinspection TypeUnsafeComparisonInspection */
             if ($a != 0 && $b == 0) {
                 $tokens[] = '(position() mod ' . abs($a) . ') = 0';
             }
@@ -312,9 +304,9 @@ class CSS
 
             if (preg_match('/^\d+$/', $attr)) {
                 return '[count(preceding-sibling::*) = ' . ($attr - 1) . ']'; // [2] -> [count(preceding-sibling::*) = 1];
-            } else {
-                return '[@' . $attr . ']'; // [foo] => [@foo]
             }
+
+            return '[@' . $attr . ']'; // [foo] => [@foo]
         }
         switch (true) {
         case preg_match('/^(text|comment)$/', $attr, $m):
@@ -379,7 +371,7 @@ class CSS
     public static function translate_part($str, $last_nav = '')
     {
         $str = preg_replace('/:contains\(([^()]*)\)/', '[text*=\\1]', $str); // quick and dirty contains fix
-        $returnValue = array();
+        $returnValue = [];
         $re =
             '/(:(?:nth-last-child|nth-of-type|nth-last-of-type|first-child|last-child|first-of-type|last-of-type|only-child|only-of-type|nth-child|first|last|gt|lt|eq|root|nth|empty|not|has|contains|parent|link|visited|hover|active)(?:\((?>[^()]|(?R))*\))?|\[(?>[^\[\]]|(?R))*\]|[#.][\w-]+)/';
         $name = '*';
@@ -401,7 +393,7 @@ class CSS
                 $name = $token;
             }
         }
-        if (in_array($name, array('text', 'comment'), false)) {
+        if (in_array($name, ['text', 'comment'])) {
             $name .= '()';
         }
 
@@ -416,7 +408,7 @@ class CSS
      */
     public static function translate($str)
     {
-        $returnValue = array();
+        $returnValue = [];
         $re = '/(\((?>[^()]|(?R))*\)|\[(?>[^\[\]]|(?R))*\]|\s*[+~>]\s*| \s*)/';
         $item = '';
 
@@ -467,7 +459,7 @@ class CSS
      */
     private static function get_expressions($str)
     {
-        $returnValue = array();
+        $returnValue = [];
         $re = '/(\((?>[^()]|(?R))*\)|\[(?>[^\[\]]|(?R))*\]|,)/';
         $item = '';
         foreach (preg_split($re, $str, 0, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $token) {
@@ -494,7 +486,7 @@ class CSS
             return $str;
         }
         $str = preg_replace('/\b(text|comment)\(\)/', '\1', $str);
-        $returnValue = array();
+        $returnValue = [];
         foreach (self::get_expressions($str) as $expr) {
             $returnValue[] = self::translate($expr);
         }

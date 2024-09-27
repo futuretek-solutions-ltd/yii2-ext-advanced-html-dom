@@ -160,7 +160,7 @@ class AHTMLNodeList implements Iterator, Countable, ArrayAccess
      */
     public function map($c)
     {
-        $ret = array();
+        $ret = [];
         foreach ($this as $node) {
             $ret[] = $c($node);
         }
@@ -178,8 +178,8 @@ class AHTMLNodeList implements Iterator, Countable, ArrayAccess
      */
     public function doMath($nl, $op = 'plus')
     {
-        $paths = array();
-        $other_paths = array();
+        $paths = [];
+        $other_paths = [];
 
         foreach ($this as $node) {
             $paths[] = $node->node->getNodePath();
@@ -219,7 +219,7 @@ class AHTMLNodeList implements Iterator, Countable, ArrayAccess
      */
     public function plus($nl)
     {
-        return $this->doMath($nl, 'plus');
+        return $this->doMath($nl);
     }
 
     /**
@@ -243,9 +243,8 @@ class AHTMLNodeList implements Iterator, Countable, ArrayAccess
     public function __call($key, $values)
     {
         $key = strtolower(str_replace('_', '', $key));
-        switch ($key) {
-        case 'to_a':
-            $returnValue = array();
+        if ($key === 'to_a') {
+            $returnValue = [];
             foreach ($this as $node) {
                 $returnValue[] = new AHTMLNode($this->nodeList->item($this->counter), $this->doc);
             }
@@ -254,7 +253,7 @@ class AHTMLNodeList implements Iterator, Countable, ArrayAccess
         }
         // otherwise
 
-        $returnValue = array();
+        $returnValue = [];
 
         /*
             if(preg_match(TAGS_REGEX, $key, $m)) return $this->find($m[1]);
