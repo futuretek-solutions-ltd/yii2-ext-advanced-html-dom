@@ -192,7 +192,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
      *
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->node->getAttribute($offset);
     }
