@@ -182,7 +182,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return true;
     }
@@ -201,7 +201,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($value) {
             $this->node->setAttribute($offset, $value);
@@ -214,7 +214,7 @@ class AHTMLNode extends AdvancedHtmlBase implements ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         trigger_error('offsetUnset not implemented', E_USER_WARNING);
     }
